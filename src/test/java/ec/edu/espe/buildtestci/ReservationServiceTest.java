@@ -30,7 +30,7 @@ public class ReservationServiceTest {
     void createReservation_validData_shouldSaveAndReturnResponse() {
         // Arrange
         String roomCode = "LAB-101";
-        String email = "student@espe.edu.ec";
+        String email = "josue@espe.edu.ec";
         int hours = 2;
 
         when(reservationRepository.existsByRoomCode(roomCode)).thenReturn(false);
@@ -53,7 +53,7 @@ public class ReservationServiceTest {
     @Test
     void createReservation_invalidEmail_shouldThrow_andNotCallDependencies() {
         // Arrange
-        String invalidEmail = "student-espe.edu.ec";
+        String invalidEmail = "josue-espe.edu.ec";
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
@@ -67,14 +67,14 @@ public class ReservationServiceTest {
     @Test
     void createReservation_hoursOutOfRange_shouldThrow_andNotCallDependencies() {
         // Arrange
-        int invalidHours = 9; // Mayor al límite de 8
+        int invalidHours = 9;
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                reservationService.createReservation("LAB-101", "student@espe.edu.ec", invalidHours)
+                reservationService.createReservation("LAB-101", "josue@espe.edu.ec", invalidHours)
         );
 
-        // No se deben llamar a ninguna dependencia porque falla la validación
+
         verifyNoInteractions(reservationRepository, userPolicyClient);
     }
 
@@ -82,7 +82,7 @@ public class ReservationServiceTest {
     void createReservation_roomAlreadyReserved_shouldThrow() {
         // Arrange
         String roomCode = "LAB-101";
-        String email = "student@espe.edu.ec";
+        String email = "josue@espe.edu.ec";
         int hours = 2;
 
         when(reservationRepository.existsByRoomCode(roomCode)).thenReturn(true);
