@@ -25,11 +25,11 @@ public class ReservationServiceTest {
         userPolicyClient = Mockito.mock(UserPolicyClient.class);
         reservationService = new ReservationService(reservationRepository, userPolicyClient);
     }
-
+    //Josue Zambrano
     @Test
     void createReservation_validData_shouldSaveAndReturnResponse() {
         // Arrange
-        String roomCode = "LAB-101";
+        String roomCode = "H-206";
         String email = "josue@espe.edu.ec";
         int hours = 2;
 
@@ -39,7 +39,7 @@ public class ReservationServiceTest {
 
         // Act
         ReservationResponse response = reservationService.createReservation(roomCode, email, hours);
-
+        //Josue Zambrano
         // Assert
         assertNotNull(response.getReservationId());
         assertEquals(roomCode, response.getRoomCode());
@@ -49,7 +49,7 @@ public class ReservationServiceTest {
         verify(reservationRepository).save(any(RoomReservation.class));
         verify(reservationRepository).existsByRoomCode(roomCode);
     }
-
+    //Josue Zambrano
     @Test
     void createReservation_invalidEmail_shouldThrow_andNotCallDependencies() {
         // Arrange
@@ -57,7 +57,7 @@ public class ReservationServiceTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                reservationService.createReservation("LAB-101", invalidEmail, 2)
+                reservationService.createReservation("H-206", invalidEmail, 2)
         );
 
         // No se deben llamar a ninguna dependencia porque falla la validación
@@ -71,17 +71,17 @@ public class ReservationServiceTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                reservationService.createReservation("LAB-101", "josue@espe.edu.ec", invalidHours)
+                reservationService.createReservation("H-206", "josue@espe.edu.ec", invalidHours)
         );
 
-
+        //Josue Zambrano
         verifyNoInteractions(reservationRepository, userPolicyClient);
     }
 
     @Test
     void createReservation_roomAlreadyReserved_shouldThrow() {
         // Arrange
-        String roomCode = "LAB-101";
+        String roomCode = "H-206";
         String email = "josue@espe.edu.ec";
         int hours = 2;
 
@@ -97,4 +97,5 @@ public class ReservationServiceTest {
         verify(reservationRepository, never()).save(any());
         verify(userPolicyClient, never()).isBlocked(any());
     }
+    //Josue Zambrano
 }
