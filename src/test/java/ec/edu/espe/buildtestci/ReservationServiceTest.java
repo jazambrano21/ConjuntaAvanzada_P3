@@ -60,6 +60,7 @@ public class ReservationServiceTest {
                 reservationService.createReservation("H206", invalidEmail, 2)
         );
 
+        // No se deben llamar a ninguna dependencia porque falla la validación
         verifyNoInteractions(reservationRepository, userPolicyClient);
     }
 
@@ -90,7 +91,7 @@ public class ReservationServiceTest {
                 reservationService.createReservation(roomCode, email, hours)
         );
 
-        assertEquals("Room ya esta reservado", exception.getMessage());
+        assertEquals("Room is already reserved", exception.getMessage());
         verify(reservationRepository).existsByRoomCode(roomCode);
         verify(reservationRepository, never()).save(any());
         verify(userPolicyClient, never()).isBlocked(any());
