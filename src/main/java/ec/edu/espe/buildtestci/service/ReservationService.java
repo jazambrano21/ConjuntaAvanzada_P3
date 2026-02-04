@@ -15,7 +15,6 @@ public class ReservationService {
     }
 
     public ReservationResponse createReservation(String roomCode, String email, int hours) {
-        // Validaciones de casos negativos
         if (roomCode == null || roomCode.trim().isEmpty()) {
             throw new IllegalArgumentException("Room code cannot be null or empty");
         }
@@ -28,17 +27,14 @@ public class ReservationService {
             throw new IllegalArgumentException("Hours must be greater than 0 and less than or equal to 8");
         }
 
-        // Regla de negocio: sala ya reservada
         if (reservationRepository.existsByRoomCode(roomCode)) {
             throw new IllegalStateException("Room is already reserved");
         }
 
-        // Regla de negocio: usuario bloqueado
         if (userPolicyClient.isBlocked(email)) {
             throw new IllegalStateException("User is blocked by institutional policies");
         }
 
-        // Crear y guardar la reserva
         RoomReservation reservation = new RoomReservation(roomCode, email, hours);
         RoomReservation savedReservation = reservationRepository.save(reservation);
 

@@ -8,14 +8,4 @@ public interface UserPolicyClient {
 
 
 
-
-
-
-
-
-
-
-
-
-
 //Josue Zambrano
