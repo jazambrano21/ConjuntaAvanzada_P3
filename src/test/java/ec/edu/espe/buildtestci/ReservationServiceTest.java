@@ -29,7 +29,7 @@ public class ReservationServiceTest {
     @Test
     void createReservation_validData_shouldSaveAndReturnResponse() {
         // Arrange
-        String roomCode = "H206";
+        String roomCode = "LAB-101";
         String email = "josue@espe.edu.ec";
         int hours = 2;
 
@@ -53,11 +53,11 @@ public class ReservationServiceTest {
     @Test
     void createReservation_invalidEmail_shouldThrow_andNotCallDependencies() {
         // Arrange
-        String invalidEmail = "josue@espe.edu.ec";
+        String invalidEmail = "josue-espe.edu.ec";
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                reservationService.createReservation("H206", invalidEmail, 2)
+                reservationService.createReservation("LAB-101", invalidEmail, 2)
         );
 
         // No se deben llamar a ninguna dependencia porque falla la validación
@@ -71,8 +71,9 @@ public class ReservationServiceTest {
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () ->
-                reservationService.createReservation("H206", "josue@espe.edu.ec", invalidHours)
+                reservationService.createReservation("LAB-101", "josue@espe.edu.ec", invalidHours)
         );
+
 
         verifyNoInteractions(reservationRepository, userPolicyClient);
     }
@@ -80,7 +81,7 @@ public class ReservationServiceTest {
     @Test
     void createReservation_roomAlreadyReserved_shouldThrow() {
         // Arrange
-        String roomCode = "H206";
+        String roomCode = "LAB-101";
         String email = "josue@espe.edu.ec";
         int hours = 2;
 
